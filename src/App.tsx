@@ -72,6 +72,7 @@ const stages: Stage[] = [
 function App() {
   const [selected, setSelected] = useState<number | null>(null)
   const [hoveredStage, setHoveredStage] = useState<number | null>(null)
+  const [notes, setNotes] = useState('')
 
   const progress = selected ? (selected / 4) * 100 : 0
 
@@ -218,6 +219,25 @@ function App() {
                 </div>
               ))}
             </div>
+
+            {/* Notes Section - appears after selection */}
+            {selected && (
+              <div className="mt-8 animate-fade-in">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Why did you select <span className="text-emerald-400">{stages[selected-1].name}</span>? (optional)
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Add any context or notes about your selection..."
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
+                />
+                <p className="text-xs text-slate-500 mt-2">
+                  This helps WCN understand your organization's unique context.
+                </p>
+              </div>
+            )}
 
             {/* Navigation */}
             <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-700/50">
