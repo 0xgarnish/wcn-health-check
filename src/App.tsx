@@ -2,60 +2,103 @@ import { useState } from 'react'
 import { GrowingTree } from './GrowingTree'
 import { translations, languages, type Language } from './i18n'
 
-const categoryData = {
-  name: 'Strategic Planning & Execution',
-  icon: '📋',
-  questions: [
-    {
-      id: 1,
-      title: 'Strategic Plan',
-      desc: 'Long-term planning and goal setting',
-      plantIcon: '🌳',
-      stages: [
-        { name: 'Planting', title: 'Seeds of Potential', description: ['No long-range goals', 'Reactive to funding', 'Staff wait for direction'] },
-        { name: 'Seedling', title: 'Taking Root', description: ['Vague goals exist', 'Plans are activity lists', 'Limited coordination'] },
-        { name: 'Growing', title: 'Branching Out', description: ['Clear strategy forming', 'Management articulates goals', 'Individual plans exist'] },
-        { name: 'Harvesting', title: 'Full Bloom', description: ['2-3 year roadmap', 'Mission-aligned goals', 'Team-wide clarity'] },
-      ],
-    },
-    {
-      id: 2,
-      title: 'Implementation',
-      desc: 'Turning plans into action',
-      plantIcon: '🌿',
-      stages: [
-        { name: 'Planting', title: 'Getting Started', description: ['No implementation process', 'Ad-hoc execution', 'No accountability'] },
-        { name: 'Seedling', title: 'Building Habits', description: ['Basic processes exist', 'Some follow-through', 'Inconsistent results'] },
-        { name: 'Growing', title: 'Gaining Momentum', description: ['Regular check-ins', 'Measurable progress', 'Adjustments made'] },
-        { name: 'Harvesting', title: 'Excellence', description: ['Systematic execution', 'Strong accountability', 'Continuous improvement'] },
-      ],
-    },
-    {
-      id: 3,
-      title: 'Monitoring & Evaluation',
-      desc: 'Tracking progress and measuring impact',
-      plantIcon: '🌴',
-      stages: [
-        { name: 'Planting', title: 'No Visibility', description: ['No tracking systems', 'Anecdotal evidence only', 'No data collection'] },
-        { name: 'Seedling', title: 'Basic Tracking', description: ['Some metrics exist', 'Irregular reporting', 'Limited analysis'] },
-        { name: 'Growing', title: 'Data-Informed', description: ['Regular monitoring', 'Key indicators tracked', 'Reports shared'] },
-        { name: 'Harvesting', title: 'Impact-Driven', description: ['Comprehensive M&E', 'Real-time dashboards', 'Evidence-based decisions'] },
-      ],
-    },
-    {
-      id: 4,
-      title: 'Adaptive Management',
-      desc: 'Learning and adjusting strategies',
-      plantIcon: '🎋',
-      stages: [
-        { name: 'Planting', title: 'Rigid', description: ['No flexibility', 'Stick to original plan', 'Change is resisted'] },
-        { name: 'Seedling', title: 'Reactive', description: ['Change when forced', 'Slow to adapt', 'Limited learning'] },
-        { name: 'Growing', title: 'Responsive', description: ['Regular reviews', 'Willing to pivot', 'Learning culture'] },
-        { name: 'Harvesting', title: 'Agile', description: ['Continuous adaptation', 'Proactive changes', 'Innovation embraced'] },
-      ],
-    },
-  ],
-}
+const categories = [
+  {
+    id: 1,
+    name: 'Strategic Planning & Execution',
+    icon: '📋',
+    questions: [
+      { id: 101, title: 'Strategic Plan', desc: 'Long-term planning and goal setting', plantIcon: '🌳' },
+      { id: 102, title: 'Implementation', desc: 'Turning plans into action', plantIcon: '🌿' },
+      { id: 103, title: 'Monitoring & Evaluation', desc: 'Tracking progress and impact', plantIcon: '🌴' },
+      { id: 104, title: 'Adaptive Management', desc: 'Learning and adjusting', plantIcon: '🎋' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Registration & Governance',
+    icon: '⚖️',
+    questions: [
+      { id: 201, title: 'Legal Registration', desc: 'Formal organizational status', plantIcon: '🌲' },
+      { id: 202, title: 'Board Governance', desc: 'Leadership and oversight', plantIcon: '🌵' },
+      { id: 203, title: 'Policies & Procedures', desc: 'Documented guidelines', plantIcon: '🎄' },
+      { id: 204, title: 'Compliance', desc: 'Meeting legal requirements', plantIcon: '🌾' },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Financial Management',
+    icon: '💰',
+    questions: [
+      { id: 301, title: 'Budgeting', desc: 'Financial planning and allocation', plantIcon: '🌻' },
+      { id: 302, title: 'Accounting Systems', desc: 'Financial record keeping', plantIcon: '🌼' },
+      { id: 303, title: 'Financial Controls', desc: 'Safeguards and oversight', plantIcon: '🌸' },
+      { id: 304, title: 'Financial Reporting', desc: 'Transparency and accountability', plantIcon: '💐' },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Human Resources',
+    icon: '👥',
+    questions: [
+      { id: 401, title: 'Staffing Structure', desc: 'Team organization and roles', plantIcon: '🌺' },
+      { id: 402, title: 'Recruitment & Retention', desc: 'Hiring and keeping talent', plantIcon: '🌹' },
+      { id: 403, title: 'Performance Management', desc: 'Evaluation and development', plantIcon: '🌷' },
+      { id: 404, title: 'Staff Well-being', desc: 'Support and work environment', plantIcon: '🪻' },
+    ],
+  },
+  {
+    id: 5,
+    name: 'Program Management',
+    icon: '🎯',
+    questions: [
+      { id: 501, title: 'Program Design', desc: 'Planning conservation activities', plantIcon: '🪴' },
+      { id: 502, title: 'Project Implementation', desc: 'Executing field work', plantIcon: '🎍' },
+      { id: 503, title: 'Community Engagement', desc: 'Local partnerships', plantIcon: '🎑' },
+      { id: 504, title: 'Impact Assessment', desc: 'Measuring conservation outcomes', plantIcon: '🌱' },
+    ],
+  },
+  {
+    id: 6,
+    name: 'Communications & Marketing',
+    icon: '📢',
+    questions: [
+      { id: 601, title: 'Brand & Messaging', desc: 'Organizational identity', plantIcon: '🌿' },
+      { id: 602, title: 'Digital Presence', desc: 'Website and social media', plantIcon: '🍀' },
+      { id: 603, title: 'Stakeholder Communications', desc: 'Donor and partner updates', plantIcon: '☘️' },
+      { id: 604, title: 'Media Relations', desc: 'Press and public awareness', plantIcon: '🌲' },
+    ],
+  },
+  {
+    id: 7,
+    name: 'Fundraising & Development',
+    icon: '🤝',
+    questions: [
+      { id: 701, title: 'Fundraising Strategy', desc: 'Revenue planning', plantIcon: '🌳' },
+      { id: 702, title: 'Donor Relations', desc: 'Cultivation and stewardship', plantIcon: '🌴' },
+      { id: 703, title: 'Grant Management', desc: 'Institutional funding', plantIcon: '🎋' },
+      { id: 704, title: 'Revenue Diversification', desc: 'Multiple funding sources', plantIcon: '🌵' },
+    ],
+  },
+  {
+    id: 8,
+    name: 'Partnerships & Networks',
+    icon: '🌐',
+    questions: [
+      { id: 801, title: 'Partner Identification', desc: 'Finding collaborators', plantIcon: '🌾' },
+      { id: 802, title: 'Partnership Management', desc: 'Maintaining relationships', plantIcon: '🌻' },
+      { id: 803, title: 'Network Participation', desc: 'Coalition involvement', plantIcon: '🌼' },
+      { id: 804, title: 'Knowledge Sharing', desc: 'Learning exchange', plantIcon: '🌸' },
+    ],
+  },
+]
+
+const stageTemplates = [
+  { name: 'Planting', title: 'Seeds of Potential', descriptions: ['No formal processes', 'Ad-hoc approach', 'Limited awareness'] },
+  { name: 'Seedling', title: 'Taking Root', descriptions: ['Basic systems exist', 'Some structure', 'Growing awareness'] },
+  { name: 'Growing', title: 'Branching Out', descriptions: ['Clear processes', 'Regular practice', 'Good foundation'] },
+  { name: 'Harvesting', title: 'Full Bloom', descriptions: ['Excellence achieved', 'Best practices', 'Continuous improvement'] },
+]
 
 const stageStyles = [
   { gradient: 'from-amber-700 via-amber-800 to-stone-700', bgGradient: 'bg-gradient-to-br from-amber-950/30 to-stone-950/40' },
@@ -65,19 +108,26 @@ const stageStyles = [
 ]
 
 function App() {
+  const [currentCategory, setCurrentCategory] = useState(0)
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [notes, setNotes] = useState<Record<number, string>>({})
   const [lang, setLang] = useState<Language>('en')
   const [langDropdownOpen, setLangDropdownOpen] = useState(false)
 
   const t = translations[lang]
-  const totalQuestions = categoryData.questions.length
-  const answeredCount = Object.keys(answers).length
-  const progress = (answeredCount / totalQuestions) * 100
-  const overallScore = Object.values(answers).reduce((a, b) => a + b, 0)
-  const maxScore = totalQuestions * 4
-  const scorePercent = Math.round((overallScore / maxScore) * 100)
-  const allAnswered = answeredCount === totalQuestions
+  const category = categories[currentCategory]
+  const totalQuestions = category.questions.length
+  const answeredInCategory = category.questions.filter(q => answers[q.id]).length
+  const categoryProgress = (answeredInCategory / totalQuestions) * 100
+  const categoryScore = category.questions.reduce((sum, q) => sum + (answers[q.id] || 0), 0)
+  const maxCategoryScore = totalQuestions * 4
+  const categoryScorePercent = Math.round((categoryScore / maxCategoryScore) * 100)
+  const allAnsweredInCategory = answeredInCategory === totalQuestions
+
+  // Overall progress
+  const totalAllQuestions = categories.reduce((sum, c) => sum + c.questions.length, 0)
+  const totalAnswered = Object.keys(answers).length
+  const overallProgress = Math.round((totalAnswered / totalAllQuestions) * 100)
 
   const handleSelect = (questionId: number, level: number) => {
     setAnswers({ ...answers, [questionId]: level })
@@ -94,7 +144,7 @@ function App() {
       </div>
 
       <div className="relative z-10 py-4 px-4 md:py-6">
-        {/* Language Dropdown - Fixed */}
+        {/* Language Dropdown */}
         <div className="fixed top-4 right-4 z-30">
           <div className="relative">
             <button
@@ -124,140 +174,182 @@ function App() {
         </div>
 
         {/* Header */}
-        <div className="max-w-5xl mx-auto mb-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-2">
-            <span>{categoryData.icon}</span>
-            {categoryData.name}
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+        <div className="max-w-5xl mx-auto mb-4 text-center">
+          <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight mb-2">
             {t.title} <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">{t.subtitle}</span>
           </h1>
           
-          {/* Progress */}
-          <div className="max-w-md mx-auto mt-4">
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-slate-500">{answeredCount} of {totalQuestions} answered</span>
-              <span className="text-emerald-400">{Math.round(progress)}%</span>
+          {/* Overall Progress */}
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-3">
+            <span>Overall: {overallProgress}%</span>
+            <div className="w-32 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500" style={{ width: `${overallProgress}%` }}></div>
             </div>
-            <div className="h-2 rounded-full bg-slate-800/80 overflow-hidden border border-slate-700/50">
-              <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" style={{ width: `${progress}%` }}></div>
-            </div>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap justify-center gap-1.5">
+            {categories.map((cat, idx) => {
+              const catAnswered = cat.questions.filter(q => answers[q.id]).length
+              const catComplete = catAnswered === cat.questions.length
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setCurrentCategory(idx)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
+                    idx === currentCategory 
+                      ? 'bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400' 
+                      : catComplete
+                        ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400/80'
+                        : catAnswered > 0
+                          ? 'bg-slate-800/80 border border-slate-600 text-slate-300'
+                          : 'bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:bg-slate-700/60'
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  <span className="hidden md:inline">{cat.name}</span>
+                  {catComplete && <span className="text-emerald-400">✓</span>}
+                </button>
+              )
+            })}
           </div>
         </div>
 
-        {/* All Questions */}
-        <div className="max-w-5xl mx-auto space-y-6">
-          {categoryData.questions.map((question, qIdx) => {
-            const currentAnswer = answers[question.id] || 0
-            return (
-              <div key={question.id} className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-slate-700/50 shadow-xl">
-                {/* Question Header */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-lg shadow-lg">
-                    {question.plantIcon}
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-lg font-bold text-white">{qIdx + 1}. {question.title}</h2>
-                    <p className="text-slate-400 text-sm">{question.desc}</p>
-                  </div>
-                  {currentAnswer > 0 && (
-                    <div className="text-emerald-400 text-sm font-medium">✓ Level {currentAnswer}</div>
-                  )}
+        {/* Category Content */}
+        <div className="max-w-5xl mx-auto">
+          {/* Category Header */}
+          <div className="bg-slate-900/60 backdrop-blur-xl rounded-t-2xl p-4 border border-slate-700/50 border-b-0">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-xl shadow-lg">
+                  {category.icon}
                 </div>
+                <div>
+                  <h2 className="text-lg font-bold text-white">{category.name}</h2>
+                  <p className="text-slate-400 text-xs">{answeredInCategory}/{totalQuestions} completed</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">{allAnsweredInCategory ? `${categoryScorePercent}%` : '--'}</div>
+                <div className="text-xs text-slate-400">Category Score</div>
+              </div>
+            </div>
+            <div className="mt-3 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500" style={{ width: `${categoryProgress}%` }}></div>
+            </div>
+          </div>
 
-                {/* Stage Cards + Tree */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                  {question.stages.map((stage, idx) => {
-                    const level = idx + 1
-                    const style = stageStyles[idx]
-                    const isSelected = currentAnswer === level
-                    return (
-                      <div
-                        key={level}
-                        onClick={() => handleSelect(question.id, level)}
-                        className={`relative group cursor-pointer rounded-xl p-3 transition-all duration-300 ${style.bgGradient} border-2 ${isSelected ? 'border-yellow-400 shadow-lg shadow-yellow-500/20 scale-[1.02]' : 'border-slate-700/50 hover:border-slate-600'}`}
-                      >
-                        <div className={`absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${isSelected ? 'bg-yellow-400 text-slate-900' : 'bg-slate-800/80 text-slate-400'}`}>
-                          {level}
-                        </div>
-                        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${style.gradient} flex items-center justify-center text-xl mb-2 shadow-md`}>
-                          {['🌱', '🌿', '🌳', '🍎'][idx]}
-                        </div>
-                        <h3 className="text-sm font-bold text-white">{stage.name}</h3>
-                        <p className="text-slate-400 text-xs mb-1">{stage.title}</p>
-                        <ul className="space-y-0.5">
-                          {stage.description.map((item, i) => (
-                            <li key={i} className="text-slate-300 text-[10px] leading-tight">• {item}</li>
-                          ))}
-                        </ul>
-                        {isSelected && (
-                          <div className="absolute bottom-2 right-2 w-5 h-5 rounded-full bg-yellow-400 flex items-center justify-center">
-                            <svg className="w-3 h-3 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
+          {/* Questions */}
+          <div className="space-y-0">
+            {category.questions.map((question, qIdx) => {
+              const currentAnswer = answers[question.id] || 0
+              return (
+                <div key={question.id} className={`bg-slate-900/60 backdrop-blur-xl p-4 border-x border-slate-700/50 ${qIdx === category.questions.length - 1 ? '' : 'border-b border-slate-700/30'}`}>
+                  {/* Question Header */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-lg">{question.plantIcon}</span>
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-white">{question.title}</span>
+                      <span className="text-slate-500 text-xs ml-2">— {question.desc}</span>
+                    </div>
+                    {currentAnswer > 0 && (
+                      <span className="text-emerald-400 text-xs font-medium px-2 py-0.5 bg-emerald-500/10 rounded-full">Level {currentAnswer}</span>
+                    )}
+                  </div>
+
+                  {/* Stage Cards + Tree */}
+                  <div className="grid grid-cols-5 gap-2">
+                    {stageTemplates.map((stage, idx) => {
+                      const level = idx + 1
+                      const style = stageStyles[idx]
+                      const isSelected = currentAnswer === level
+                      return (
+                        <div
+                          key={level}
+                          onClick={() => handleSelect(question.id, level)}
+                          className={`relative cursor-pointer rounded-lg p-2 transition-all duration-200 ${style.bgGradient} border ${isSelected ? 'border-yellow-400 shadow-md shadow-yellow-500/20 scale-[1.03]' : 'border-slate-700/50 hover:border-slate-600'}`}
+                        >
+                          <div className="flex items-center gap-1 mb-1">
+                            <span className="text-sm">{['🌱', '🌿', '🌳', '🍎'][idx]}</span>
+                            <span className={`text-xs font-bold ${isSelected ? 'text-yellow-400' : 'text-white'}`}>{level}</span>
                           </div>
-                        )}
+                          <p className="text-[10px] font-medium text-white leading-tight">{stage.name}</p>
+                          <p className="text-[9px] text-slate-400 leading-tight">{stage.title}</p>
+                          {isSelected && (
+                            <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-yellow-400 flex items-center justify-center">
+                              <svg className="w-2.5 h-2.5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                    
+                    {/* Mini Tree */}
+                    <div className="rounded-lg p-1 bg-slate-800/30 border border-slate-700/30 flex items-center justify-center">
+                      <div className="scale-75 origin-center">
+                        <GrowingTree value={currentAnswer * 3} maxValue={12} />
                       </div>
-                    )
-                  })}
-                  
-                  {/* Tree */}
-                  <div className="rounded-xl p-3 bg-slate-800/40 border border-slate-700/30 flex flex-col items-center justify-center">
-                    <GrowingTree value={currentAnswer * 3} maxValue={12} />
-                    <p className="text-xs text-slate-500 mt-1">{question.plantIcon} Growth</p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Notes */}
-                {currentAnswer > 0 && (
-                  <div className="mt-3">
+                  {/* Notes */}
+                  {currentAnswer > 0 && (
                     <textarea
                       value={notes[question.id] || ''}
                       onChange={(e) => setNotes({ ...notes, [question.id]: e.target.value })}
-                      placeholder={`Why Level ${currentAnswer}? Add context... (optional)`}
-                      rows={2}
-                      className="w-full px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none text-sm"
+                      placeholder="Add context (optional)..."
+                      rows={1}
+                      className="w-full mt-2 px-3 py-1.5 rounded-lg bg-slate-800/40 border border-slate-700/30 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all resize-none text-xs"
                     />
-                  </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Category Summary */}
+          <div className="bg-slate-900/60 backdrop-blur-xl rounded-b-2xl p-4 border border-slate-700/50 border-t-0">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-slate-400">
+                {allAnsweredInCategory ? (
+                  <span className="text-emerald-400">✓ Category complete!</span>
+                ) : (
+                  <span>Complete all {totalQuestions} questions to see your orchard</span>
                 )}
               </div>
-            )
-          })}
-
-          {/* Summary Section */}
-          <div className={`bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-slate-700/50 shadow-xl transition-all duration-500 ${allAnswered ? 'opacity-100' : 'opacity-50'}`}>
-            <div className="text-center mb-4">
-              <h2 className="text-xl font-bold text-white mb-1">🏡 Your Strategic Planning Orchard</h2>
-              <p className="text-slate-400 text-sm">{allAnswered ? 'Your complete garden assessment' : 'Complete all questions to see your full orchard'}</p>
-            </div>
-            
-            {/* Orchard */}
-            <div className="bg-gradient-to-b from-slate-800/40 to-emerald-950/20 rounded-xl p-4 mb-4 border border-slate-700/30">
-              <div className="grid grid-cols-4 gap-3">
-                {categoryData.questions.map((q) => (
+              
+              {/* Mini Orchard Preview */}
+              <div className="flex gap-2">
+                {category.questions.map((q) => (
                   <div key={q.id} className="text-center">
-                    <div className="bg-slate-900/50 rounded-lg p-2">
-                      <GrowingTree value={(answers[q.id] || 0) * 3} maxValue={12} />
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${answers[q.id] ? 'bg-emerald-500/20' : 'bg-slate-800/50'}`}>
+                      {q.plantIcon}
                     </div>
-                    <span className="text-sm">{q.plantIcon}</span>
-                    <p className="text-[10px] text-slate-400">{q.title}</p>
-                    <p className="text-emerald-400 text-xs font-medium">Lvl {answers[q.id] || '-'}</p>
+                    <span className="text-[9px] text-slate-500">{answers[q.id] || '-'}</span>
                   </div>
                 ))}
               </div>
             </div>
-            
-            {/* Score */}
-            <div className="text-center">
-              <div className="text-4xl font-bold text-white mb-1">{allAnswered ? `${scorePercent}%` : '--'}</div>
-              <div className="text-slate-400 text-sm mb-3">Category Score</div>
-              <div className="h-3 rounded-full bg-slate-700 overflow-hidden max-w-xs mx-auto">
-                <div 
-                  className="h-full rounded-full transition-all duration-700 bg-gradient-to-r from-amber-500 via-emerald-500 to-teal-500"
-                  style={{ width: allAnswered ? `${scorePercent}%` : '0%' }}
-                ></div>
-              </div>
-            </div>
+          </div>
+
+          {/* Category Navigation */}
+          <div className="flex justify-between mt-4">
+            <button 
+              onClick={() => setCurrentCategory(Math.max(0, currentCategory - 1))}
+              disabled={currentCategory === 0}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${currentCategory === 0 ? 'bg-slate-800/40 text-slate-600 cursor-not-allowed' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700/50'}`}
+            >
+              ← {currentCategory > 0 ? categories[currentCategory - 1].name : 'Previous'}
+            </button>
+            <button 
+              onClick={() => setCurrentCategory(Math.min(categories.length - 1, currentCategory + 1))}
+              disabled={currentCategory === categories.length - 1}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${currentCategory === categories.length - 1 ? 'bg-slate-800/40 text-slate-600 cursor-not-allowed' : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25 hover:scale-105'}`}
+            >
+              {currentCategory < categories.length - 1 ? categories[currentCategory + 1].name : 'Next'} →
+            </button>
           </div>
         </div>
 
