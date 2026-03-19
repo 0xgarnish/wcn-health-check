@@ -1,72 +1,31 @@
 import { useState } from 'react'
 import { GrowingTree } from './GrowingTree'
+import { translations, languages, Language } from './i18n'
 
-interface Stage {
-  level: number
-  name: string
-  gradient: string
-  bgGradient: string
-  icon: string
-  title: string
-  description: string[]
-}
-
-const stages: Stage[] = [
+const stageStyles = [
   {
     level: 1,
-    name: 'Planting',
     gradient: 'from-amber-700 via-amber-800 to-stone-700',
     bgGradient: 'bg-gradient-to-br from-amber-950/30 to-stone-950/40',
     icon: '🌱',
-    title: 'Seeds of Potential',
-    description: [
-      'No long-range program goals',
-      'Activities driven by funding & donors',
-      'Staff wait to be told what to do',
-      'Daily tasks unclear',
-    ],
   },
   {
     level: 2,
-    name: 'Seedling',
     gradient: 'from-lime-600 via-green-600 to-emerald-700',
     bgGradient: 'bg-gradient-to-br from-lime-950/30 to-green-950/40',
     icon: '🌿',
-    title: 'Taking Root',
-    description: [
-      'Goals exist but are vague',
-      'Plans are just activity lists',
-      'Staff know duties, can\'t plan ahead',
-      'Limited coordination',
-    ],
   },
   {
     level: 3,
-    name: 'Growing',
     gradient: 'from-emerald-500 via-green-500 to-teal-600',
     bgGradient: 'bg-gradient-to-br from-emerald-950/30 to-teal-950/40',
     icon: '🌳',
-    title: 'Branching Out',
-    description: [
-      'Reasonably clear strategy',
-      'Only management articulates goals',
-      'Individual work plans exist',
-      'Some coordination gaps',
-    ],
   },
   {
     level: 4,
-    name: 'Harvesting',
     gradient: 'from-green-500 via-emerald-400 to-teal-400',
     bgGradient: 'bg-gradient-to-br from-green-950/30 to-emerald-950/40',
     icon: '🍎',
-    title: 'Full Bloom',
-    description: [
-      'Clear 2-3 year strategy',
-      'Goals align with mission',
-      'Cohesive team planning',
-      'Everyone articulates goals',
-    ],
   },
 ]
 
@@ -74,6 +33,16 @@ function App() {
   const [sliderValue, setSliderValue] = useState(0)
   const [hoveredStage, setHoveredStage] = useState<number | null>(null)
   const [notes, setNotes] = useState('')
+  const [lang, setLang] = useState<Language>('en')
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false)
+
+  const t = translations[lang]
+  const stages = stageStyles.map((style, i) => ({
+    ...style,
+    name: t.stages[i].name,
+    title: t.stages[i].title,
+    description: t.stages[i].description,
+  }))
 
   // Map slider (0-12) to stage (null, 1, 2, 3, 4)
   const selected = sliderValue === 0 ? null : Math.ceil(sliderValue / 3)
@@ -96,6 +65,42 @@ function App() {
       </div>
 
       <div className="relative z-10 py-8 px-4 md:py-12">
+        {/* Language Dropdown - Top Right */}
+        <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20">
+          <div className="relative">
+            <button
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 border border-slate-700/50 text-slate-300 text-sm font-medium hover:bg-slate-700/80 transition-colors backdrop-blur-sm"
+            >
+              <span>{languages.find(l => l.code === lang)?.flag}</span>
+              <span className="hidden sm:inline">{languages.find(l => l.code === lang)?.name}</span>
+              <svg className={`w-4 h-4 transition-transform ${langDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-40 rounded-xl bg-slate-800 border border-slate-700/50 shadow-xl overflow-hidden backdrop-blur-sm">
+                {languages.map((language) => (
+                  <button
+                    key={language.code}
+                    onClick={() => {
+                      setLang(language.code)
+                      setLangDropdownOpen(false)
+                    }}
+                    className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm text-left hover:bg-slate-700/50 transition-colors ${
+                      lang === language.code ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-300'
+                    }`}
+                  >
+                    <span>{language.flag}</span>
+                    <span>{language.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Header */}
         <div className="max-w-6xl mx-auto mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6 backdrop-blur-sm">
@@ -103,25 +108,27 @@ function App() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Wildlife Conservation Network
+            {t.orgName}
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-            Organizational
+            {t.title}
             <span className="block bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-              Health Check
+              {t.subtitle}
             </span>
           </h1>
           <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
-            Assess your organization's maturity and unlock your path to greater impact.
+            {lang === 'en' && 'Assess your organization\'s maturity and unlock your path to greater impact.'}
+            {lang === 'es' && 'Evalúe la madurez de su organización y desbloquee su camino hacia un mayor impacto.'}
+            {lang === 'fr' && 'Évaluez la maturité de votre organisation et débloquez votre chemin vers un plus grand impact.'}
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="max-w-4xl mx-auto mb-10">
           <div className="flex justify-between text-sm mb-3">
-            <span className="text-slate-500 font-medium">Question 1 of 12</span>
+            <span className="text-slate-500 font-medium">{t.questionLabel}</span>
             <span className="text-emerald-400 font-medium">
-              {selected ? `Level ${selected} · ${stages[selected-1].name}` : 'Select your stage'}
+              {selected ? `${t.level} ${selected} · ${stages[selected-1].name}` : t.selectStage}
             </span>
           </div>
           <div className="h-2 rounded-full bg-slate-800/80 overflow-hidden backdrop-blur-sm border border-slate-700/50">
@@ -148,9 +155,9 @@ function App() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-lg shadow-lg shadow-emerald-500/20">
                 📋
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-white">Strategic Plan</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-white">{t.questionTitle}</h2>
               <span className="text-slate-500 hidden sm:inline">—</span>
-              <p className="text-slate-400 text-sm hidden sm:block">How well does your organization plan for the future?</p>
+              <p className="text-slate-400 text-sm hidden sm:block">{t.questionDesc}</p>
             </div>
             
             {/* Growing Tree + Slider */}
@@ -169,7 +176,7 @@ function App() {
                   className="w-full h-2 bg-slate-700 rounded-full appearance-none cursor-pointer slider-thumb"
                 />
                 <div className="flex justify-between mt-2 text-xs font-medium">
-                  <span className="text-slate-500">Start</span>
+                  <span className="text-slate-500">{t.start}</span>
                   {stages.map((stage) => (
                     <span 
                       key={stage.level}
@@ -255,17 +262,17 @@ function App() {
             {selected && (
               <div className="mt-8 animate-fade-in">
                 <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Why did you select <span className="text-emerald-400">{stages[selected-1].name}</span>? (optional)
+                  {t.notesLabel} <span className="text-emerald-400">{stages[selected-1].name}</span>? (optional)
                 </label>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Add any context or notes about your selection..."
+                  placeholder={t.notesPlaceholder}
                   rows={3}
                   className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
                 />
                 <p className="text-xs text-slate-500 mt-2">
-                  This helps WCN understand your organization's unique context.
+                  {t.notesHelper}
                 </p>
               </div>
             )}
@@ -273,12 +280,12 @@ function App() {
             {/* Navigation */}
             <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-700/50">
               <button className="px-6 py-3 rounded-xl bg-slate-800/80 text-slate-400 font-medium hover:bg-slate-700 hover:text-slate-200 transition-all border border-slate-700/50">
-                ← Previous
+                {t.previous}
               </button>
               
               <div className="text-slate-500 text-sm">
                 {selected && (
-                  <span className="text-emerald-400">✓ Stage {selected} selected</span>
+                  <span className="text-emerald-400">✓ {stages[selected-1].name} {t.stageSelected}</span>
                 )}
               </div>
 
@@ -291,7 +298,7 @@ function App() {
                     : 'bg-slate-800 text-slate-600 cursor-not-allowed border border-slate-700/50'}
                 `}
               >
-                Continue →
+                {t.continue}
               </button>
             </div>
           </div>
@@ -300,7 +307,7 @@ function App() {
         {/* Footer */}
         <div className="max-w-6xl mx-auto mt-10 text-center">
           <p className="text-slate-600 text-sm">
-            Built with 💚 for conservation
+            {t.footer}
           </p>
         </div>
       </div>
