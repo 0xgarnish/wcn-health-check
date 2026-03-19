@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { GrowingTree } from './GrowingTree'
-import { translations, languages, Language } from './i18n'
+import { translations, languages, type Language } from './i18n'
 
 const stageStyles = [
   {
