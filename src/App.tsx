@@ -64,7 +64,7 @@ function App() {
         }}></div>
       </div>
 
-      <div className="relative z-10 py-8 px-4 md:py-12">
+      <div className="relative z-10 py-4 px-4 md:py-6">
         {/* Language Dropdown - Top Right */}
         <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20">
           <div className="relative">
@@ -101,31 +101,23 @@ function App() {
           </div>
         </div>
 
-        {/* Header */}
-        <div className="max-w-6xl mx-auto mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6 backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
+        {/* Header - Compact */}
+        <div className="max-w-6xl mx-auto mb-4 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-2 backdrop-blur-sm">
+            <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
             </span>
             {t.orgName}
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-            {t.title}
-            <span className="block bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-              {t.subtitle}
-            </span>
+          <h1 className="text-2xl md:text-4xl font-bold text-white mb-1 tracking-tight">
+            {t.title} <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">{t.subtitle}</span>
           </h1>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
-            {lang === 'en' && 'Assess your organization\'s maturity and unlock your path to greater impact.'}
-            {lang === 'es' && 'Evalúe la madurez de su organización y desbloquee su camino hacia un mayor impacto.'}
-            {lang === 'fr' && 'Évaluez la maturité de votre organisation et débloquez votre chemin vers un plus grand impact.'}
-          </p>
         </div>
 
         {/* Progress Bar */}
-        <div className="max-w-4xl mx-auto mb-10">
-          <div className="flex justify-between text-sm mb-3">
+        <div className="max-w-4xl mx-auto mb-4">
+          <div className="flex justify-between text-xs mb-2">
             <span className="text-slate-500 font-medium">{t.questionLabel}</span>
             <span className="text-emerald-400 font-medium">
               {selected ? `${t.level} ${selected} · ${stages[selected-1].name}` : t.selectStage}
@@ -148,7 +140,7 @@ function App() {
 
         {/* Question Card */}
         <div className="max-w-6xl mx-auto">
-          <div className="bg-slate-900/60 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-slate-700/50 shadow-2xl shadow-black/20">
+          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-slate-700/50 shadow-2xl shadow-black/20">
             
             {/* Question Header - Single Row */}
             <div className="flex items-center gap-3 mb-6">
@@ -161,11 +153,11 @@ function App() {
             </div>
             
             {/* Growing Tree + Slider */}
-            <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700/30 mb-6">
+            <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-700/30 mb-4">
               <GrowingTree value={sliderValue} maxValue={12} />
               
               {/* Slider */}
-              <div className="mt-6 px-4">
+              <div className="mt-4 px-4">
                 <input
                   type="range"
                   min="0"
@@ -190,7 +182,7 @@ function App() {
             </div>
 
             {/* Stage Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
               {stages.map((stage) => (
                 <div
                   key={stage.level}
@@ -305,7 +297,7 @@ function App() {
         </div>
 
         {/* Footer */}
-        <div className="max-w-6xl mx-auto mt-10 text-center">
+        <div className="max-w-6xl mx-auto mt-4 text-center">
           <p className="text-slate-600 text-sm">
             {t.footer}
           </p>
