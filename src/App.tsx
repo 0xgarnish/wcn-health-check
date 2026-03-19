@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { GrowingTree } from './GrowingTree'
 import { translations, languages, type Language } from './i18n'
 
@@ -146,8 +147,12 @@ function App() {
       </div>
 
       <div className="relative z-10 py-4 px-4 md:py-6">
-        {/* Language */}
-        <div className="fixed top-4 right-4 z-30">
+        {/* Admin + Language */}
+        <div className="fixed top-4 right-4 z-30 flex items-center gap-2">
+          <Link to="/admin" className="px-3 py-2 rounded-xl bg-slate-800/90 border border-slate-700/50 text-slate-300 text-sm font-medium hover:bg-slate-700/90 transition-colors backdrop-blur-sm shadow-lg flex items-center gap-1.5">
+            <span>📊</span>
+            <span className="hidden sm:inline">Admin</span>
+          </Link>
           <div className="relative">
             <button onClick={() => setLangDropdownOpen(!langDropdownOpen)} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/90 border border-slate-700/50 text-slate-300 text-sm font-medium hover:bg-slate-700/90 transition-colors backdrop-blur-sm shadow-lg">
               <span>{languages.find(l => l.code === lang)?.flag}</span>
